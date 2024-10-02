@@ -16,6 +16,8 @@ class QueueManager:
         self.queue = deque()
 
     def add_to_queue(self, child):
+        if not isinstance(child, Child):
+            raise TypeError("Object must be an instance of Child class")
         self.queue.append(child)
 
     def remove_from_queue(self):
@@ -82,7 +84,7 @@ class TestQueueManager(unittest.TestCase):
         self.assertEqual(removed_child1.name, "Ivan")
         self.assertEqual(removed_child2.name, "Oleg")
 
-    @unittest.expectedFailure
+    
     def test_negative_scenario(self):
         """Негативний тест: додавання дитини з некоректними даними"""
         with self.assertRaises(TypeError):

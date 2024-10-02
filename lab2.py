@@ -1,6 +1,6 @@
 from collections import deque
 
-#Модель даних
+# Модель даних
 class Child:
     def __init__(self, name, birth_date, parent_name, application_date):
         self.name = name
@@ -11,7 +11,7 @@ class Child:
     def __str__(self):
         return f"Child: {self.name}, Born: {self.birth_date}, Parent: {self.parent_name}, Application Date: {self.application_date}"
 
-#Модeль черги
+# Модель черги
 class QueueManager:
     def __init__(self):
         self.queue = deque()
@@ -20,17 +20,20 @@ class QueueManager:
         if not isinstance(child, Child):
             raise TypeError("Object must be an instance of Child class")
         self.queue.append(child)
+        print(f"Added: {child}")
 
     def remove_from_queue(self):
         if self.queue:
-            return self.queue.popleft()
+            removed_child = self.queue.popleft()
+            print(f"Removed: {removed_child}")
+            return removed_child
         else:
             raise IndexError("Queue is empty")
 
     def view_queue(self):
         return list(self.queue)
 
-#Інтерфейс користувача
+# Інтерфейс користувача
 def display_menu():
     print("\n1. Add Child to Queue")
     print("2. Remove Child from Queue")
@@ -39,12 +42,12 @@ def display_menu():
 
 def get_child_info():
     name = input("Enter child's name: ")
-    birth_date = input("Enter child's birth date (YYYY-MM-DD): ")
+    birth_date = input("Enter child's birth date (YYYY.MM.DD): ")
     parent_name = input("Enter parent's name: ")
-    application_date = input("Enter application date (YYYY-MM-DD): ")
+    application_date = input("Enter application date (YYYY.MM.DD): ")
     return Child(name, birth_date, parent_name, application_date)
 
-#Основна програма
+# Основна програма
 def main():
     queue_manager = QueueManager()
     
@@ -55,10 +58,27 @@ def main():
         if choice == '1':
             child = get_child_info()
             queue_manager.add_to_queue(child)
+            queue = queue_manager.view_queue()
+            print("Current Queue:")
+            for child in queue:
+                print(child)
         elif choice == '2':
-            queue_manager.remove_from_queue()
+            try:
+                queue_manager.remove_from_queue()
+                queue = queue_manager.view_queue()
+                print("Current Queue:")
+                for child in queue:
+                    print(child)
+            except IndexError as e:
+                print(e)
         elif choice == '3':
-            queue_manager.view_queue()
+            queue = queue_manager.view_queue()
+            if queue:
+                print("Queue:")
+                for child in queue:
+                    print(child)
+            else:
+                print("The queue is empty.")
         elif choice == '4':
             print("Exiting...")
             break
