@@ -21,9 +21,8 @@ pipeline {
             steps {
                 sh 'apk add --update python3 py-pip'
                 sh 'python3 -m venv /venv'
-                sh 'export PATH=/venv/bin/'
-                sh 'install xmlrunner'
-                sh 'Test.py'
+                sh 'source /venv/bin/activate && pip3 install unittest-xml-reporting'
+                sh 'source /venv/bin/activate && python3 Test.py'
             }
             post {
                 always {
