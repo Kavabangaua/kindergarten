@@ -1,28 +1,39 @@
 pipeline {
-    options {timestamps()}
+    options { timestamps() }
     agent none
-    stages{
-        stage ('Check scm'){
+
+    stages {
+        stage('Check scm') {
             agent any
             steps {
                 checkout scm
             }
         }
-        stage ('Build') {
+
+        stage('Build') {
             steps {
                 echo "Building ... ${BUILD_NUMBER}"
                 echo "Build completed"
             }
         }
-        stage ('Test') {
-            agent { docker { image 'alpine' 
-                            args '-u=\"root\"'}
-                    }
+
+        stage('Test') {
+            agent { 
+                docker { 
+                    image 'python:3.12-alpine' 
+                    args '-u root'            
+                }
+            }
             steps {
-                sh 'apk add --update python3 py-pip'
+                
+                sh 'apk add --update python3 py3-pip'
+                
+                
                 sh 'python3 -m venv /venv'
-                sh 'source /venv/bin/activate && pip3 install unittest-xml-reporting'
-                sh 'source /venv/bin/activate && python3 Test.py'
+                sh '/venv/bin/pip install unittest-xml-reporting'
+
+                
+                sh '/venv/bin/python Test.py'
             }
             post {
                 always {
