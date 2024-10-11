@@ -1,5 +1,6 @@
 import unittest
 from collections import deque
+import xmlrunner
 class Child:
     def __init__(self, name, birth_date, parent_name, application_date):
         self.name = name
@@ -91,4 +92,5 @@ class TestQueueManager(unittest.TestCase):
 
 #Запускаємо тести
 if __name__ == '__main__':
-    unittest.main
+    runner = xmlrunner.XMLTestRunner(output='test-reports')
+    unittest.main(testRunner=runner)
