@@ -1,6 +1,9 @@
 pipeline {
     options {timestamps()}
     agent none
+    environment{
+        DOCKER_CREDI = credentials('docker_hub')
+    }
     stages{
         stage ('Check scm'){
             agent any
@@ -36,5 +39,17 @@ pipeline {
                 }
             }
         }
+    stage ('Publishing to Docker') {
+        steps {
+            sh 'echo $DOCKER_CREDI_PSW | docker login --username $DOCKER_CREDI_USR --password-stdin'
+            sh 'docker build -t 24kavabanga/jenkins_repo --push .'
+            
+        }
+        post {
+            always {
+                sh 'docker logout'
+            }
+        }
+    }
     }
 }
