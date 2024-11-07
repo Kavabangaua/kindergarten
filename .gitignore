@@ -16,3 +16,5 @@ test-reports/
 #Файли IDE
 .vscode/
 .idea/
+
+.terraform/
