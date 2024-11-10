@@ -14,7 +14,7 @@ provider "aws" {
 }
 
 resource "aws_security_group" "web_app" {
-  name        = "web_app"
+  name        = "web_app_unique"
   description = "security group for web application"
 
   ingress {
