@@ -6,6 +6,13 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  backend "s3" {
+    bucket         = "kavabanga-tf-state-bucket"
+    key            = "terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "kavabanga-tf-lockid"
+  }
 }
 
 # Configure the AWS provider
