@@ -1,0 +1,3 @@
+[submodule "kindergarten"]
+	path = kindergarten
+	url = https://github.com/Kavabangaua/kindergarten.git
